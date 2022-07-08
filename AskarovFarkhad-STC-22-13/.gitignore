@@ -25,11 +25,11 @@ effective-settings.xml
 /*/.gwt/
 .cache
 .idea/
-# add directory by me
-src/test/
 *.iml
 *.log
 *.lck
-*.jar
 */dependency-reduced-pom.xml
 
+# add directory by me
+src/test/
+**/out/
