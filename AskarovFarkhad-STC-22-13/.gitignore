@@ -33,3 +33,4 @@ effective-settings.xml
 # add directory by me
 src/test/
 **/out/
+
