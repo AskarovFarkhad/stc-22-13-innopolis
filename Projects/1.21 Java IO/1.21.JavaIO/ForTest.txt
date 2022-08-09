@@ -1,0 +1,5 @@
+LastName1|Name1|Patronymic1|26
+LastName2|Name2|Patronymic2|24
+LastName3|Name3|Patronymic3|23
+LastName4|Name4|Patronymic4|22
+LastName5|Name5|Patronymic5|21
