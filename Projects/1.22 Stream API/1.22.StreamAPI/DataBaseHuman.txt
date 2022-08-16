@@ -1,0 +1,3 @@
+Oleg|Igonin|male|26
+Igor|Igonin|male|20
+Leonid|Igonin|male|40
