@@ -191,7 +191,7 @@
 
 Нужны классы:
 
-* **Human** - c полями (такие же поля должны быть в таблице бд human):
+**Human** - c полями (такие же поля должны быть в таблице бд human):
 
 * private String name;\
 * private String lastName;\
@@ -202,7 +202,7 @@
 * private String flat;\
 * private String numberPassport;
 
-* Интерфейс **CrudHuman** - c методами:
+Интерфейс **CrudHuman** - c методами:
 
 * List<Human> getAllHumans(); //Возвращает список всех людей из базы данных\
 * Human getHumanById(int id); //Возвращает конкретного человека, у которого определенный id\
