@@ -193,6 +193,7 @@
 
 **Human** - c полями (такие же поля должны быть в таблице бд human):
 
+* private int id;
 * private String name;
 * private String lastName;
 * private String patronymic;
@@ -219,7 +220,7 @@ class Main {
 		CrudHuman crudHuman = new CrudHumanImpl();
 		List<Human> humans = crudHuman.getAllHumans(); //теперь в humans весь список людей из бд
 		Human human = crudHuman.getHumanById(3); //теперь в human находится конкретный человек (если такого id нет, то решение проблемы - на Ваше усмотрение)
-		human.setName = "Mitrofan";
+		human.setName("Mitrofan");
 		crudHuman.updateHuman(human); // теперь значения у данного человека в бд должно измениться
 		crudHuman.deleteHuman(human); //после выполнения данной команды - данный человек должен удалиться из бд
 	}
