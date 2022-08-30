@@ -193,21 +193,21 @@
 
 **Human** - c полями (такие же поля должны быть в таблице бд human):
 
-* private String name;\
-* private String lastName;\
-* private String patronymic;\
-* private String city;\
-* private String street;\
-* private String house;\
-* private String flat;\
+* private String name;
+* private String lastName;
+* private String patronymic;
+* private String city;
+* private String street;
+* private String house;
+* private String flat;
 * private String numberPassport;
 
 Интерфейс **CrudHuman** - c методами:
 
-* List<Human> getAllHumans(); //Возвращает список всех людей из базы данных\
-* Human getHumanById(int id); //Возвращает конкретного человека, у которого определенный id\
-* void createHuman(Human human); //Создает человека и записывает его в БД\
-* void updateHuman(Human human); //Обновляет данные по конкретному человеку\
+* List<Human> getAllHumans(); //Возвращает список всех людей из базы данных
+* Human getHumanById(int id); //Возвращает конкретного человека, у которого определенный id
+* void createHuman(Human human); //Создает человека и записывает его в БД
+* void updateHuman(Human human); //Обновляет данные по конкретному человеку
 * void deleteHuman(Human human); //Удаляет конкретного человека
 
 Пример работы программы:
