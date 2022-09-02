@@ -14,17 +14,11 @@ public class Human {
 
     private String name;
 
-    private String lastMame;
+    private String lastName;
 
     private String patronymic;
 
     private String city;
-
-    private String street;
-
-    private String house;
-
-    private String flat;
 
     private String numberPassport;
 }

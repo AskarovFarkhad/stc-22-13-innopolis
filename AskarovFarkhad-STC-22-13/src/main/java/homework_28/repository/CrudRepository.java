@@ -1,22 +1,23 @@
 package homework_28.repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CrudRepository<T> {
 
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
 
-    T getById(int id);
+    T getById(int id) throws SQLException;
 
-    void create(T entity);
+    void create(T entity) throws SQLException;
 
-    void update(T entity);
+    void update(T entity) throws SQLException;
 
-    void delete(T entity);
+    void delete(T entity) throws SQLException;
 
-    void deleteById(int id);
+    void deleteById(int id) throws SQLException;
 
-    void deleteAll();
+    void deleteAll() throws SQLException;
 
-    long count();
+    long count() throws SQLException;
 }
