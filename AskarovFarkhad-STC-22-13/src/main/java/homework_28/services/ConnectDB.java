@@ -1,5 +1,7 @@
 package homework_28.services;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
@@ -9,13 +11,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * @author Farkhad Askarov <br>
+ * Class for connect database PostgreSQL.
+ */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConnectDB {
 
     private static Connection connection;
-
-    private ConnectDB() {
-    }
 
     public static Connection getConnection() {
         if (connection == null) connection = connectionDB();
