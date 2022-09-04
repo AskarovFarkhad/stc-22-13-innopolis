@@ -31,7 +31,6 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
             ).execute();
         } catch (SQLException e) {
             log.error("Ошибка при создании таблицы: " + e.getCause());
-            e.printStackTrace();
         }
     }
 
@@ -47,7 +46,6 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
             return ConverterSetHuman.covertSetToList(resultSet);
         } catch (SQLException e) {
             log.error("Ошибка при получении полного списка: " + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }
@@ -63,9 +61,8 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
         try (Connection connection = ConnectDB.getConnection()) {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM humans WHERE id = " + id);
             return ConverterSetHuman.covertSetToList(resultSet).get(0);
-        } catch (SQLException e) {
-            log.error("Ошибка при создании таблицы: " + e.getCause());
-            e.printStackTrace();
+        } catch (SQLException | IndexOutOfBoundsException e) {
+            log.error("Ошибка при поиске человека по ID: " + e.getCause());
             return null;
         }
     }
@@ -74,28 +71,43 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
      * Creating entity and add in database.
      *
      * @param entity {@link Human}.
+     * @return 1 - успешное добавления, 0 - ошибка.
      */
     @Override
-    public void create(Human entity) {
+    public int save(Human entity) {
         try (Connection connection = ConnectDB.getConnection()) {
-            connection.createStatement().execute(
-                    "INSERT INTO humans VALUES" +
-                            "(" + entity.getName() + ", "
-                            + entity.getLastName() + ", "
-                            + entity.getCity() + ", " +
-                            entity.getNumberPassport() + ")"
-            );
+            return connection.createStatement().executeUpdate(
+                    "INSERT INTO humans(name, lastname, city, numberpassport) VALUES" +
+                            "('" + entity.getName() + "', '"
+                            + entity.getLastName() + "', '"
+                            + entity.getCity() + "', '" +
+                            entity.getNumberPassport() + "')");
         } catch (SQLException e) {
-            log.error("Ошибка при создании таблицы: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Ошибка при добавлении человека в СУБД: " + e.getMessage());
+            return 0;
         }
     }
 
+    /**
+     * Update data of human.
+     *
+     * @param entity class {@link Human}.
+     * @return 1 - успешное добавления, 0 - ошибка.
+     */
     @Override
-    public void update(Human entity) throws SQLException {
-        Connection connection = ConnectDB.getConnection();
-
-        connection.close();
+    public int update(Human entity) {
+        try (Connection connection = ConnectDB.getConnection()) {
+            return connection.createStatement().executeUpdate(
+                    "UPDATE humans SET " +
+                            "name = '" + entity.getName() +
+                            "', lastName = '" + entity.getLastName() +
+                            "', city = '" + entity.getCity() +
+                            "', numberpassport = '" + entity.getNumberPassport() + "'" +
+                            "WHERE id = " + entity.getId());
+        } catch (SQLException e) {
+            log.error("Ошибка при добавлении человека в СУБД: " + e.getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -104,15 +116,18 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
      * @param entity class {@link Human}.
      */
     @Override
-    public void delete(Human entity) throws SQLException {
-        Connection connection = ConnectDB.getConnection();
-        connection.createStatement().executeUpdate(
-                "DELETE FROM humans" +
-                        "WHERE (name = " + entity.getName() +
-                        " AND lastName = " + entity.getLastName() +
-                        " AND city = " + entity.getCity() +
-                        " AND numberpassport = " + entity.getNumberPassport() + ")");
-        connection.close();
+    public int delete(Human entity) {
+        try (Connection connection = ConnectDB.getConnection()) {
+            return connection.createStatement().executeUpdate(
+                    "DELETE FROM humans" +
+                            " WHERE humans.name = '" + entity.getName() +
+                            "' AND lastName = '" + entity.getLastName() +
+                            "' AND city = '" + entity.getCity() +
+                            "' AND numberpassport = '" + entity.getNumberPassport() + "'");
+        } catch (SQLException e) {
+            log.error("Ошибка при удалении человека с СУБД: " + e.getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -121,32 +136,25 @@ public class CrudRepositoryImpl implements CrudRepository<Human> {
      * @param id
      */
     @Override
-    public void deleteById(int id) throws SQLException {
-        Connection connection = ConnectDB.getConnection();
-        connection.createStatement().executeUpdate("DELETE FROM humans WHERE id = " + id);
-        connection.close();
+    public int deleteById(int id) {
+        try (Connection connection = ConnectDB.getConnection()) {
+            return connection.createStatement().executeUpdate("DELETE FROM humans WHERE id = " + id);
+        } catch (SQLException | IndexOutOfBoundsException e) {
+            log.error("Ошибка при удалении человека с СУБД: " + e.getMessage());
+            return 0;
+        }
     }
 
     /**
      * Delete all humans from database.
      */
     @Override
-    public void deleteAll() throws SQLException {
-        Connection connection = ConnectDB.getConnection();
-        connection.createStatement().executeUpdate("DELETE FROM humans");
-        connection.close();
-    }
-
-    /**
-     * Get count rows in database.
-     *
-     * @return long count rows in database.
-     */
-    @Override
-    public long count() throws SQLException {
-        Connection connection = ConnectDB.getConnection();
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM humans");
-        connection.close();
-        return resultSet.getFetchSize();
+    public int deleteAll() {
+        try (Connection connection = ConnectDB.getConnection()) {
+            return connection.createStatement().executeUpdate("DELETE FROM humans");
+        } catch (SQLException e) {
+            log.error("Ошибка при очистке СУБД: " + e.getMessage());
+            return 0;
+        }
     }
 }

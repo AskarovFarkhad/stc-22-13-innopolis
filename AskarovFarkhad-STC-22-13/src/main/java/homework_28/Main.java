@@ -4,7 +4,6 @@ import homework_28.entity.Human;
 import homework_28.repository.impl.CrudRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 @Slf4j
@@ -26,47 +25,72 @@ public class Main {
                     break;
                 case "2":
                     System.out.print("Введите ID человека: ");
-                    System.out.println(repository.getById(Integer.parseInt(sc.nextLine().trim())));
+                    Human getHuman = repository.getById(Integer.parseInt(sc.nextLine().trim()));
+                    if (getHuman == null) log.error("Человека с таким ID не существует...");
+                    System.out.println(getHuman);
                     break;
                 case "3":
                     System.out.print("Введите данные человека в формате <Имя Фамилия Город Паспортные данные>: ");
                     String[] dataCreate = sc.nextLine().trim().split("\\s");
-                    repository.create(new Human(dataCreate[0], dataCreate[1], dataCreate[2], dataCreate[3]));
+                    try {
+                        if (repository.save(new Human(
+                                dataCreate[0],
+                                dataCreate[1],
+                                dataCreate[2],
+                                dataCreate[3])) == 1) {
+                            log.info("Команда успешно выполнена!");
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        log.error("Данные не корректны.");
+                    }
                     break;
                 case "4":
-                    System.out.print("Введите данные человека в формате <Имя Фамилия Город Паспортные данные>: ");
+                    System.out.print("Введите ID человека для обновления данных: ");
+                    Human humanForUpdate = repository.getById(Integer.parseInt(sc.nextLine().trim()));
 
+                    if (humanForUpdate == null) {
+                        log.error("Человека с таким ID не существует...");
+                        break;
+                    }
+                    log.info("Данные человека " + humanForUpdate + " будут обновлены...");
+
+                    System.out.print("Введите новые данные человека в формате <Имя Фамилия Город Паспортные данные>: ");
+                    String[] dataUpdate = sc.nextLine().trim().split("\\s");
+                    try {
+                        humanForUpdate.setName(dataUpdate[0]);
+                        humanForUpdate.setLastName(dataUpdate[1]);
+                        humanForUpdate.setCity(dataUpdate[2]);
+                        humanForUpdate.setNumberPassport(dataUpdate[3]);
+
+                        if (repository.update(humanForUpdate) == 1) {
+                            log.info("Команда успешно выполнена!");
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        log.error("Данные не корректны.");
+                    }
                     break;
                 case "5":
                     System.out.print("Введите данные человека в формате <Имя Фамилия Город Паспортные данные>: ");
                     String[] dataDelete = sc.nextLine().trim().split("\\s");
                     try {
-                        repository.delete(new Human(dataDelete[0], dataDelete[1], dataDelete[2], dataDelete[3]));
-                    } catch (SQLException e) {
-                        log.error("Ошибка при работе с СУБД: " + e.getCause());
+                        if (repository.delete(new Human(dataDelete[0], dataDelete[1], dataDelete[2], dataDelete[3])) > 0) {
+                            log.info("Команда успешно выполнена!");
+                        } else {
+                            log.error("Данные не корректны.");
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        log.error("Данные не корректны.");
                     }
                     break;
                 case "6":
                     System.out.print("Введите ID человека: ");
-                    try {
-                        repository.deleteById(Integer.parseInt(sc.nextLine().trim()));
-                    } catch (SQLException e) {
-                        log.error("Ошибка при работе с СУБД: " + e.getCause());
+                    if (repository.deleteById(Integer.parseInt(sc.nextLine().trim())) == 1) {
+                        log.info("Команда успешно выполнена!");
                     }
                     break;
                 case "7":
-                    try {
-                        repository.deleteAll();
-                    } catch (SQLException e) {
-                        log.error("Ошибка при работе с СУБД: " + e.getCause());
-                    }
-                    break;
-                case "8":
-                    try {
-                        System.out.println(repository.count());
-                    } catch (SQLException e) {
-                        log.error("Ошибка при работе с СУБД: " + e.getCause());
-                    }
+                    repository.deleteAll();
+                    log.info("Команда успешно выполнена!");
                     break;
                 case "exit":
                     flag = false;
@@ -89,7 +113,6 @@ public class Main {
                         "5. Удалить человека по данным\n" +
                         "6. Удалить человека по ID\n" +
                         "7. Удалить всех людей из списка\n" +
-                        "8. Получить количество людей в БД\n" +
 
                         "* Для выхода введите 'exit'\n" +
                         "--------------------------------");

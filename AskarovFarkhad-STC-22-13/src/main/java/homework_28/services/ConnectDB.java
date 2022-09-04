@@ -22,8 +22,7 @@ public class ConnectDB {
     private static Connection connection;
 
     public static Connection getConnection() {
-        if (connection == null) connection = connectionDB();
-        return connection;
+         return connectionDB();
     }
 
     public static Connection connectionDB() {
