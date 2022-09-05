@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -16,7 +17,7 @@ public class TestConnectDB {
     private static Connection connection;
 
     @Before
-    public void init() throws SQLException {
+    public void init() {
         connection = ConnectDB.getConnection();
     }
 
@@ -26,8 +27,13 @@ public class TestConnectDB {
     }
 
     @Test
-    public void GetJdbcConnection() throws SQLException {
+    public void ShouldGetJdbcConnection() throws SQLException {
         assertTrue(connection.isValid(1));
         assertFalse(connection.isClosed());
+    }
+
+    @Test
+    public void ShouldGetProperties() throws IOException {
+        assertFalse(ConnectDB.initProperties().isEmpty());
     }
 }

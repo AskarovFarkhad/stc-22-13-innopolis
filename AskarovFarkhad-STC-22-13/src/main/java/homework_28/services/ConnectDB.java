@@ -22,20 +22,16 @@ public class ConnectDB {
     private static Connection connection;
 
     public static Connection getConnection() {
-         return connectionDB();
+        return connectionDB();
     }
 
     public static Connection connectionDB() {
         try {
-
-            Properties dbProperties = new Properties();
-            dbProperties.load(new FileInputStream("src/main/resources/humans_db.properties"));
-
+            Properties dbProperties = initProperties();
             return DriverManager.getConnection(
                     dbProperties.getProperty("humans_db.url"),
                     dbProperties.getProperty("humans_db.user"),
                     dbProperties.getProperty("humans_db.password"));
-
         } catch (IOException e) {
             log.error("Ошибка при доступе к файлу с данными для соединения к СУБД: " + e.getMessage());
             return null;
@@ -43,5 +39,11 @@ public class ConnectDB {
             log.error("Ошибка при подключении к СУБД: " + e.getMessage());
             return null;
         }
+    }
+
+    public static Properties initProperties() throws IOException {
+        Properties dbProperties = new Properties();
+        dbProperties.load(new FileInputStream("src/main/resources/humans_db.properties"));
+        return dbProperties;
     }
 }
