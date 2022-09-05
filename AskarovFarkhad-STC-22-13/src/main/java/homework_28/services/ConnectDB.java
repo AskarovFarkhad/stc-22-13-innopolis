@@ -19,8 +19,6 @@ import java.util.Properties;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConnectDB {
 
-    private static Connection connection;
-
     public static Connection getConnection() {
         return connectionDB();
     }
