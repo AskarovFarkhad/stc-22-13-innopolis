@@ -2,7 +2,7 @@ package wrappers;
 
 public class StorageDigits<T> {
 
-    private Object[] storageDigits = new Object[10];
+    private T[] storageDigits = (T[]) new Object[10];
     private int count = 0;
 
     public void addNumber(T number) {
