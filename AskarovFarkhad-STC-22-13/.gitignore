@@ -31,6 +31,5 @@ effective-settings.xml
 */dependency-reduced-pom.xml
 
 # add directory by me
-src/test/
 **/out/
 
