@@ -31,8 +31,8 @@ public class Game {
     public static boolean isCheck(int[] cards) {
         int result = 0;
 
-        for (int i = 0; i < cards.length; i++) {
-            result = result + cards[i];
+        for (int card : cards) {
+            result = result + card;
         }
 
         if (result >= 5) {
