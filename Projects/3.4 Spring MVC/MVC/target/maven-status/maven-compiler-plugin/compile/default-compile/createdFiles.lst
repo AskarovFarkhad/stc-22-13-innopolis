@@ -1,0 +1,11 @@
+ru\stc\web\dto\SignUpForm.class
+ru\stc\web\dto\SignUpForm$SignUpFormBuilder.class
+ru\stc\web\models\Account$AccountBuilder.class
+ru\stc\web\services\SignUpService.class
+ru\stc\web\config\ApplicationInitializer.class
+ru\stc\web\controllers\SignInController.class
+ru\stc\web\services\SignUpServiceImpl.class
+ru\stc\web\controllers\SignUpController.class
+ru\stc\web\config\ApplicationConfig.class
+ru\stc\web\repositories\AccountsRepository.class
+ru\stc\web\models\Account.class

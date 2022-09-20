@@ -26,6 +26,7 @@ public class WorkWithFile {
             System.out.println("Плак :С");
         } finally {
             try {
+                assert writer != null;
                 writer.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
